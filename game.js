@@ -9,7 +9,7 @@ var level = 0;
 
 // start game
 $(document).on("keydown", function(event) {
-   // checks if game was restarted to avoid readding double event handlers on game restart
+
   if (event.key == 'a' && gameStarted == false) {
     gameStarted = true;
     $("#level-title").text("Level 0");
@@ -40,7 +40,7 @@ $(document).on("keydown", function(event) {
           $("#level-title").text("GAME OVER");
           $(".game-over").fadeIn();
           setTimeout ( function () {
-            // reload game after 2s
+            // reload page to restart after 2s
             window.location.reload();
           }, 2000);
         }
@@ -59,27 +59,24 @@ function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-async function nextSequence() {
+function nextSequence() {
   // increase level
   level++;
   $("#level-title").text("Level " + level);
-  gamePattern = [];
-  for (var i=0; i<level; i++) {
-    // generate random number and store in global variables
-    var randomNumber = getRandomArbitrary(0, 4);
-    randomChosenColour = buttonColours[randomNumber];
-    gamePattern.push(randomChosenColour);
 
-    // flash the button
-    playSound(randomChosenColour);
-    $('#' + randomChosenColour).animate({
-      opacity: 0
-    }).animate({
-      opacity: 1
-    });
+  // generate random number and store in global variables
+  var randomNumber = getRandomArbitrary(0, 4);
+  randomChosenColour = buttonColours[randomNumber];
+  gamePattern.push(randomChosenColour);
 
-    await sleep(1000);
-  }
+  // flash the button
+  playSound(randomChosenColour);
+  $('#' + randomChosenColour).animate({
+    opacity: 0
+  }).animate({
+    opacity: 1
+  });
+
 }
 
 function sleep(ms) {
